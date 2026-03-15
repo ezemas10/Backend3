@@ -14,7 +14,7 @@ https://hub.docker.com/r/ezemas10/entregafinal
 
 Tag utilizado:
 
-ezemas10/entregafinal:1.0.0
+ezemas10/entregafinal:1.1.0
 
 ---
 
@@ -28,13 +28,13 @@ docker build -t entregafinal .
 
 # Descargar la imagen desde DockerHub
 
-docker pull ezemas10/entregafinal:1.0.0
+docker pull ezemas10/entregafinal:1.1.0
 
 ---
 
 # Ejecutar el contenedor
 
-docker run -p 8080:8080 -e MONGO_URL="mongodb+srv://cursobackend:cursobackend@cluster0.fpstjym.mongodb.net/" -e DB_NAME="proyectobackend3" ezemas10/entregafinal:1.0.0
+docker run -p 8080:8080 -e MONGO_URL="mongodb+srv://cursobackend:cursobackend@cluster0.fpstjym.mongodb.net/" -e DB_NAME="proyectobackend3" ezemas10/entregafinal:1.1.0
 
 El servidor quedara disponible en:
 
