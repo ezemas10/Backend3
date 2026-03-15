@@ -34,10 +34,34 @@ router.get("/mockingpets", (req, res) => {
 
 router.post("/generateData", async (req, res) => {
   try {
-    const { users = 0, pets = 0 } = req.body;
+    const { users, pets } = req.body;
 
-    const mockUsers = await generateMockUsers(Number(users));
-    const mockPets = generateMockPets(Number(pets));
+    if (users === undefined || pets === undefined) {
+      return res.status(400).json({
+        status: "error",
+        message: "users y pets son obligatorios",
+      });
+    }
+
+    const usersQty = Number(users);
+    const petsQty = Number(pets);
+
+    if (!Number.isFinite(usersQty) || !Number.isFinite(petsQty)) {
+      return res.status(400).json({
+        status: "error",
+        message: "users y pets deben ser numeros",
+      });
+    }
+
+    if (usersQty < 0 || petsQty < 0) {
+      return res.status(400).json({
+        status: "error",
+        message: "users y pets no pueden ser negativos",
+      });
+    }
+
+    const mockUsers = await generateMockUsers(usersQty);
+    const mockPets = generateMockPets(petsQty);
 
     if (mockUsers.length > 0) {
       await usersDAO.save(mockUsers);
@@ -49,15 +73,14 @@ router.post("/generateData", async (req, res) => {
 
     return res.json({
       status: "success",
-      inserted: {
-        users: mockUsers.length,
-        pets: mockPets.length,
-      },
+      inserted: { users: mockUsers.length, pets: mockPets.length },
     });
   } catch (error) {
+    console.error("generateData error:", error);
+
     return res.status(500).json({
       status: "error",
-      error: error.message,
+      message: "Error interno del servidor",
     });
   }
 });

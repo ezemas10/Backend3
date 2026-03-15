@@ -1,3 +1,6 @@
+import swaggerJSDoc from "swagger-jsdoc";
+import swaggerUI from "swagger-ui-express";
+
 import express from 'express';
 import mongoose from 'mongoose';
 import cookieParser from 'cookie-parser';
@@ -8,6 +11,7 @@ import adoptionsRouter from './routes/adoption.router.js';
 import sessionsRouter from './routes/sessions.router.js';
 
 import mocksRouter from "./routes/mocks.router.js";
+
 
 import dotenv from "dotenv";
 
@@ -29,7 +33,32 @@ const connectDB = async () => {
 };
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+
+
+const options={
+    definition: {
+        openapi: "3.0.0", 
+        info: {
+            title: "API Adoptme Users", 
+            version: "1.0.0", 
+            description: "Documentacion API Adoptme Users"
+        },
+        servers: [
+          {
+            url: 'http://localhost:8081',
+          },
+        ],
+    },
+    apis: ["./src/docs/*.yaml"],
+}
+
+const spec=swaggerJSDoc(options)
+
+
+app.use("/documentacion", swaggerUI.serve, swaggerUI.setup(spec))
+
 
 app.use('/api/users',usersRouter);
 app.use('/api/pets',petsRouter);
@@ -47,9 +76,7 @@ app.get("/", (req, res) => {
 
 connectDB()
 
-const serverHTTP = app.listen(PORT, ()=>{
 
-    console.log(`http://localhost:${PORT} Server running on port ${PORT}`)
-})
+export const server = app.listen(PORT, ()=> {console.log(`http://localhost:${PORT} Server running on port ${PORT}`)})
 
 

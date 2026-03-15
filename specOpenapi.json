@@ -1,0 +1,21 @@
+{
+     "openapi": "3.0.0",
+     "info": {
+          "title": "API ABM Users",
+          "version": "1.0.0",
+          "description": "Documentacion API ABM Users"
+     },
+     "servers": [
+          {
+               "url": "http://localhost:8080",
+               "description": "TEST"
+          },
+          {
+               "url": "http://localhost:8080",
+               "description": "Production"
+          }
+     ],
+     "paths": {},
+     "components": {},
+     "tags": []
+}
